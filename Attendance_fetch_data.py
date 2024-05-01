@@ -52,8 +52,3 @@ def Attendance_fetch_data():
         return df_all_attendance
     else:
         return None
-
-
-if __name__ == "__main__":
-    dataframe = Attendance_fetch_data()
-    print(dataframe)
