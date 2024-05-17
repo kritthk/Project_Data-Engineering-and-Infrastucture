@@ -28,8 +28,6 @@ def Booking_fetch_data():
         if response.status_code == 200:
             json_data = response.json()
             df = pd.json_normalize(json_data["data"])
-            df.rename(columns={'activity.activityId': 'activity_activityId'}, inplace=True)
-            df.rename(columns={'activity.activityName': 'activity_activityName'}, inplace=True)
             return df
     else:
         return None
