@@ -2,6 +2,7 @@ import pandas as pd
 from Fetch_Temp import Temp_fetch_data
 
 def Transform_Booking():
-    df = Temp_fetch_data()
-    df = df.rename(columns={'Heat': 'Fahrenheit', 'Temp': 'Celsius'})
-    return df
+    df_temp = Temp_fetch_data()
+    df_temp = df_temp.rename(columns={'Temp': 'Celsius'})
+    df_temp.drop(columns=['Humidity','Heat'], inplace=True)
+    return df_temp
