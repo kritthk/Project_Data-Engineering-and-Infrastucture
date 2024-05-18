@@ -21,8 +21,6 @@ def Transform_Attendance(attendance_data):
 
     # Apply the function and create a DataFrame with all the attendance records
     attendance_records = df_attendance.apply(extract_attendance_data, axis=1).explode().tolist()
-    attendance_df = pd.DataFrame(attendance_records)
-
-    attendance_df.to_csv("attendance.csv", index=False)
-    return attendance_df
-    
+    df_all_attendance = pd.DataFrame(attendance_records)
+    df_all_attendance.drop(columns=['percentPresent','percentAbsent','percentLeave'], inplace=True)
+    return df_all_attendance
