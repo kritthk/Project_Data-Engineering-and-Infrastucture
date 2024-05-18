@@ -1,7 +1,6 @@
 import requests
-import json
 
-def get_api_token():
+def Get_Api_Token():
     url_api = 'https://de.ict.mahidol.ac.th/data-service/v1/Authen/apikey'
     params = {
         'apiKey': '7YTzkxTT8n7i2FEMX7eS67Ba+BnN2PtUZTSazeiUFX4='

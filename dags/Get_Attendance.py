@@ -1,17 +1,9 @@
 import pandas as pd
-import numpy as np
 import requests
-import re
-from datetime import datetime
-from get_token import get_api_token
-from Fetch_Booking import Booking_fetch_data
 
-def Attendance_fetch_data():
+def Get_Attendance(api_token,df_booking_data):
     df_all_attendance = pd.DataFrame()
-    api_token = get_api_token()
-
     if api_token:
-        df_booking_data = Booking_fetch_data()
         url = 'https://de.ict.mahidol.ac.th/data-service/v1/ClassInfo/AttendaceSummary'
         headers = {
             'accept': 'text/plain; v=1.0',
