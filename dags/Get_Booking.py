@@ -1,10 +1,8 @@
 import pandas as pd
 import requests
 from datetime import datetime
-from get_token import get_api_token
 
-def Booking_fetch_data():
-    api_token = get_api_token()
+def Get_Booking(api_token):
 
     if api_token:
         url = 'https://de.ict.mahidol.ac.th/data-service/v1/Booking/FetchData'
