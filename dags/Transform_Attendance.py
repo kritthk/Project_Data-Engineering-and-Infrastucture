@@ -3,23 +3,26 @@ import pandas as pd
 def Transform_Attendance(attendance_data):
     df_attendance = attendance_data
 
-    df_attendance['attendances'] = df_attendance['sections'].apply(lambda x: [attendance['attendances'] for attendance in x if attendance['attendances']])
+    # Define a function to extract the attendance data
+    def extract_attendance_data(row):
+        section_data = row['sections']
+        all_attendances = []
 
-    df_attendance['sections'] = df_attendance['sections'].apply(lambda x: x[0]['sec'] if len(x) == 1 and 'sec' in x[0] else x)
-    
-    df_attendance = df_attendance.explode('sections').reset_index(drop=True)
-    
-    
-    
-    # df_attendance['numEnrolledStd'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['numEnrolledStd'] if isinstance(x, dict) else None)
-    # df_attendance['numPresent'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['numPresent'] if isinstance(x, dict) else None)
-    # df_attendance['numAbsent'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['numAbsent'] if isinstance(x, dict) else None)
-    # df_attendance['numLeave'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['numLeave'] if isinstance(x, dict) else None)
-    # df_attendance['classDate'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['classDate'] if isinstance(x, dict) else None)
-    # df_attendance['classStart'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['classStart'] if isinstance(x, dict) else None)
-    # df_attendance['classEnd'] = df_attendance['sections'].apply(lambda x: x['attendances'][0]['classEnd'] if isinstance(x, dict) else None)
+        for section in section_data:
+            attendances = section['attendances']
+            for attendance in attendances:
+                attendance_record = attendance.copy()
+                attendance_record['section'] = section['sec']
+                attendance_record['subjectCode'] = row['subjectCode']
+                attendance_record['subjectName'] = row['subjectName']
+                all_attendances.append(attendance_record)
+        
+        return all_attendances
 
-    # df_attendance.drop_duplicates()
+    # Apply the function and create a DataFrame with all the attendance records
+    attendance_records = df_attendance.apply(extract_attendance_data, axis=1).explode().tolist()
+    attendance_df = pd.DataFrame(attendance_records)
 
-    return df_attendance 
+    attendance_df.to_csv("attendance.csv", index=False)
+    return attendance_df
     
